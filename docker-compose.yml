@@ -1,0 +1,48 @@
+#version: '3.7'
+#services:
+#  wyborek-backend:
+#    container_name: wyborek-backend
+#    build:
+#      context: ./packages/rest-api/
+#      target: development
+#    restart: always
+#    command: npm run start:dev
+#    volumes:
+#      - ./packages/rest-api:/usr/src/app
+#      - /usr/src/app/node_modules
+#    env_file:
+#      - ./packages/rest-api/.env
+#    ports:
+#      - "3000:3000"
+##  ws:
+##    container_name: ws
+##    build:
+##      context: ./packages/ws/
+##      target: development
+##    restart: always
+##    command: npm run start:dev
+##    volumes:
+##      - ./packages/ws:/usr/src/app
+##      - /usr/src/app/node_modules
+##    env_file:
+##      - ./packages/ws/.env
+##    ports:
+##      - "3001:3001"
+
+
+#### for local server and database configuration
+
+version: '3.7'
+services:
+  database:
+    image: 'postgres:13.2'
+    ports:
+      - 10081:5432
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=wyborek-db
+      - POSTGRES_PASSWORD=wyborek-db-password
+
+volumes:
+  database-data:
