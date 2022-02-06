@@ -1,6 +1,6 @@
 export declare class Users {
     id: string;
-    userName: string;
+    email: string;
     password: string;
     createdAt: Date;
     updatedAt: Date;

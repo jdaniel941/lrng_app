@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { Users } from '../../../../lrng_app/src/entities/users.entity';
+import { User } from '../entities/user.entity';
 
-@EntityRepository(Users)
-export class UsersRepository extends Repository<Users> {}
+@EntityRepository(User)
+export class UsersRepository extends Repository<User> {}

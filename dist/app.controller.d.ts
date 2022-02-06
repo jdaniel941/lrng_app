@@ -1,11 +1,9 @@
-import { AppService } from "./app.service";
-import { AuthService } from "./auth/auth.service";
+import { AuthService } from './auth/auth.service';
+import { UserDto } from './dto/user.dto';
 export declare class AppController {
-    private readonly appService;
     private authService;
-    constructor(appService: AppService, authService: AuthService);
-    getHello(): string;
+    constructor(authService: AuthService);
     register(req: any): Promise<any>;
-    login(req: any): Promise<any>;
+    login(user: UserDto): Promise<any>;
     getProfile(req: any): any;
 }

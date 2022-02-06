@@ -10,6 +10,9 @@ exports.UsersRepository = void 0;
 const typeorm_1 = require("typeorm");
 const users_entity_1 = require("../entities/users.entity");
 let UsersRepository = class UsersRepository extends typeorm_1.Repository {
+    getUserByEmail(userEmail) {
+        return this.find();
+    }
 };
 UsersRepository = __decorate([
     (0, typeorm_1.EntityRepository)(users_entity_1.Users)

@@ -9,11 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
+const typeorm_1 = require("@nestjs/typeorm");
+const users_repository_1 = require("../repositories/users.repository");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
     (0, common_1.Module)({
-        providers: [users_service_1.UsersService]
+        imports: [typeorm_1.TypeOrmModule.forFeature([users_repository_1.UsersRepository])],
+        providers: [users_service_1.UsersService],
+        exports: [users_service_1.UsersService],
     })
 ], UsersModule);
 exports.UsersModule = UsersModule;

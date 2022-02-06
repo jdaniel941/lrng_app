@@ -1,4 +1,5 @@
-import { Repository } from "typeorm";
-import { Users } from "../entities/users.entity";
+import { Repository } from 'typeorm';
+import { Users } from '../entities/users.entity';
 export declare class UsersRepository extends Repository<Users> {
+    getUserByEmail(userEmail: string): Promise<Users[]>;
 }

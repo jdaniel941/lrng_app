@@ -14,38 +14,26 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
-const app_service_1 = require("./app.service");
 const auth_service_1 = require("./auth/auth.service");
 const local_auth_guard_1 = require("./auth/local-auth.guard");
 const jwt_auth_guard_1 = require("./auth/jwt-auth.guard");
+const user_dto_1 = require("./dto/user.dto");
 let AppController = class AppController {
-    constructor(appService, authService) {
-        this.appService = appService;
+    constructor(authService) {
         this.authService = authService;
     }
-    getHello() {
-        return this.appService.getHello();
-    }
     async register(req) {
-        console.log(req.body);
         return this.authService.register(req.body);
     }
-    async login(req) {
-        return this.authService.login(req.user);
+    async login(user) {
+        return this.authService.login(user);
     }
     getProfile(req) {
         return req.user;
     }
 };
 __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], AppController.prototype, "getHello", null);
-__decorate([
-    (0, common_1.Post)("auth/register"),
+    (0, common_1.Post)('auth/register'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -53,15 +41,15 @@ __decorate([
 ], AppController.prototype, "register", null);
 __decorate([
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
-    (0, common_1.Post)("auth/login"),
-    __param(0, (0, common_1.Req)()),
+    (0, common_1.Post)('auth/login'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [user_dto_1.UserDto]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "login", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Get)("profile"),
+    (0, common_1.Get)('profile'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -69,8 +57,7 @@ __decorate([
 ], AppController.prototype, "getProfile", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [app_service_1.AppService,
-        auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AppController);
 exports.AppController = AppController;
 //# sourceMappingURL=app.controller.js.map
