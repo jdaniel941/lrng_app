@@ -30,18 +30,19 @@ let AuthService = class AuthService {
         this.usersService = usersService;
         this.jwtService = jwtService;
     }
-    async validateUser(userName, pass) {
-        const user = await this.usersService.findOne(userName);
-        if (user && (await bcrypt.compare(pass, user.password))) {
+    async validateUser(email, password) {
+        const user = await this.usersService.fetchUserByEmail(email);
+        if (user && await bcrypt.compare(password, user.password)) {
             const { password } = user, result = __rest(user, ["password"]);
             return result;
         }
+        return null;
     }
     async register(userData) {
         return await this.usersService.create(userData);
     }
     async login(user) {
-        const payload = { username: user.username, sub: user.userId };
+        const payload = { email: user.username, password: user.password };
         return {
             access_token: this.jwtService.sign(payload),
         };

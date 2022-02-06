@@ -1,17 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../entities/user.entity';
-import { Repository } from 'typeorm';
-import { UsersRepository } from '../../repositories/users.repository';
-import { RegisterUserDto } from '../../dto/registerUser.dto';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import * as bcrypt from "bcrypt";
+import { InjectRepository } from "@nestjs/typeorm";
+import { User } from "../../entities/user.entity";
+import { Repository } from "typeorm";
+import { UsersRepository } from "../../repositories/users.repository";
+import { RegisterUserDto } from "../../dto/registerUser.dto";
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(UsersRepository)
-    private readonly usersRepository: Repository<User>,
-  ) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   async create(userData: RegisterUserDto): Promise<any> {
     const salt = await bcrypt.genSalt(10);
@@ -27,7 +28,42 @@ export class UsersService {
     return true;
   }
 
-  async findOne(userEmail: string): Promise<User | undefined> {
-    return await this.usersRepository.findOne(userEmail);
+  async fetchUserByEmail(
+    userEmail: string
+  ): Promise<Partial<User> | undefined> {
+    if (userEmail) {
+      const user = await this.usersRepository.findOne({
+        email: userEmail,
+      });
+      if (user) {
+        const { password, ...result } = user;
+        return result;
+      } else {
+        throw new NotFoundException({ code: 10102 });
+      }
+    } else {
+      throw new NotFoundException({ code: 10102 });
+    }
+  }
+
+  async fetchUserById(userId: string): Promise<Partial<User> | undefined> {
+    if (userId) {
+      const user = await this.usersRepository.findOne({
+        id: userId,
+      });
+      if (user) {
+        const { password, ...result } = user;
+        return result;
+      } else {
+        throw new NotFoundException({ code: 10102 });
+      }
+    } else {
+      throw new NotFoundException({ code: 10102 });
+    }
+  }
+
+  async fetchUsers(): Promise<Partial<User>[] | undefined> {
+    const users = await this.usersRepository.getAllUsers();
+    return users.map(({ password, ...results }) => ({ ...results }));
   }
 }

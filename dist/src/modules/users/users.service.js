@@ -8,15 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const bcrypt = require("bcrypt");
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
 const users_repository_1 = require("../../repositories/users.repository");
 let UsersService = class UsersService {
     constructor(usersRepository) {
@@ -34,14 +40,51 @@ let UsersService = class UsersService {
         });
         return true;
     }
-    async findOne(userEmail) {
-        return await this.usersRepository.findOne(userEmail);
+    async fetchUserByEmail(userEmail) {
+        if (userEmail) {
+            const user = await this.usersRepository.findOne({
+                email: userEmail,
+            });
+            if (user) {
+                const { password } = user, result = __rest(user, ["password"]);
+                return result;
+            }
+            else {
+                throw new common_1.NotFoundException({ code: 10102 });
+            }
+        }
+        else {
+            throw new common_1.NotFoundException({ code: 10102 });
+        }
+    }
+    async fetchUserById(userId) {
+        if (userId) {
+            const user = await this.usersRepository.findOne({
+                id: userId,
+            });
+            if (user) {
+                const { password } = user, result = __rest(user, ["password"]);
+                return result;
+            }
+            else {
+                throw new common_1.NotFoundException({ code: 10102 });
+            }
+        }
+        else {
+            throw new common_1.NotFoundException({ code: 10102 });
+        }
+    }
+    async fetchUsers() {
+        const users = await this.usersRepository.getAllUsers();
+        return users.map((_a) => {
+            var { password } = _a, results = __rest(_a, ["password"]);
+            return (Object.assign({}, results));
+        });
     }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(users_repository_1.UsersRepository)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [users_repository_1.UsersRepository])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

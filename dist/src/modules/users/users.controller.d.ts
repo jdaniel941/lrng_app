@@ -1,3 +1,8 @@
+import { UsersService } from "./users.service";
 export declare class UsersController {
-    getProfile(req: any): any;
+    private usersService;
+    constructor(usersService: UsersService);
+    getUserById(userId: any): Promise<Partial<import("../../entities/user.entity").User>>;
+    getUserByEmail(email: any): Promise<Partial<import("../../entities/user.entity").User>>;
+    getAllUsers(): Promise<Partial<import("../../entities/user.entity").User>[]>;
 }

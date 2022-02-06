@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {IsEmail, IsEnum, IsNotEmpty, IsString, MaxLength, MinLength} from 'class-validator';
 import { UserTypeEnum } from '../enums/userType.enum';
 
 @Entity()
@@ -16,6 +16,8 @@ export class User {
   @Column()
   @IsEmail()
   @IsNotEmpty()
+  @MinLength(8)
+  @MaxLength(255)
   email: string;
 
   @Column()
