@@ -36,8 +36,7 @@ export class UsersService {
         email: userEmail,
       });
       if (user) {
-        const { password, ...result } = user;
-        return result;
+        return user;
       } else {
         throw new NotFoundException({ code: 10102 });
       }

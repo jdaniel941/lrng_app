@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, Req, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { UsersService } from "./users.service";
 
-@Controller("users")
+@Controller("api/users")
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

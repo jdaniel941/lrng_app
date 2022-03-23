@@ -1,6 +1,6 @@
-import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
-import { RegisterUserDto } from '../../dto/registerUser.dto';
+import { UsersService } from "../users/users.service";
+import { JwtService } from "@nestjs/jwt";
+import { RegisterUserDto } from "../../dto/registerUser.dto";
 import { LoginUserDto } from "../../dto/loginUser.dto";
 export declare class AuthService {
     private usersService;

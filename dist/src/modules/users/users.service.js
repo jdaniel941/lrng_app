@@ -46,8 +46,7 @@ let UsersService = class UsersService {
                 email: userEmail,
             });
             if (user) {
-                const { password } = user, result = __rest(user, ["password"]);
-                return result;
+                return user;
             }
             else {
                 throw new common_1.NotFoundException({ code: 10102 });
